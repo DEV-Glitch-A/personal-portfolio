@@ -1,0 +1,2945 @@
+<!doctype html>
+<html lang="en" data-theme="pcb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0B130E" />
+    <meta
+      name="description"
+      content="Jan Alapati — digital IC design, VHDL, and embedded systems. Explore work in silicon characterization and a VHDL decoder for compressed neural-network weights."
+    />
+    <title>Jan Alapati — Digital Hardware Engineer</title>
+    <link rel="icon" type="image/svg+xml" href="assets/chip.svg" />
+
+    <!-- EDIT YOUR CONTACT LINKS HERE. Empty links stay unavailable until filled in. -->
+    <script>
+      const PROFILE = {
+        email: "jan.alapati@example.com",
+        linkedin: "https://www.linkedin.com/in/krishnadev-alapati/", // e.g. https://www.linkedin.com/in/your-name/
+        github: "https://github.com/DEV-Glitch-A", // e.g. https://github.com/your-username
+        phone: "", // International format, e.g. +49 followed by your number
+        thesisRepo: "", // Full GitHub URL for your master's thesis
+        projectRepo: "https://github.com/DEV-Glitch-A/Bit-plane-compression", // Full GitHub URL for Extended Bit-Plane Compression
+      };
+    </script>
+    <style>
+      /* Three themes remain a simple personal preference. */
+      :root {
+        color-scheme: dark;
+        --bg: #0b130e;
+        --card: #132219;
+        --text: #ecfdf5;
+        --accent: #10b981;
+        --highlight: #34d399;
+        --muted: #a8b6ad;
+        --border: #2b3c31;
+        --soft: #101c14;
+        --ink: #07160e;
+        --gold: #bead7f;
+        --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        --sans: "Avenir Next", Avenir, "Segoe UI", Arial, sans-serif;
+        --pcb-image: url("assets/electronics-background.png");
+      }
+      [data-theme="logic"] {
+        color-scheme: dark;
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f8fafc;
+        --accent: #f59e0b;
+        --highlight: #facc15;
+        --muted: #adbbd0;
+        --border: #35445b;
+        --soft: #172236;
+        --ink: #171507;
+      }
+      [data-theme="silicon"] {
+        color-scheme: light;
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --text: #152438;
+        --accent: #2563eb;
+        --highlight: #2563eb;
+        --muted: #526176;
+        --border: #d8e1eb;
+        --soft: #edf2f8;
+        --ink: #ffffff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 40px;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.65;
+        transition:
+          background 0.3s,
+          color 0.3s;
+        isolation: isolate;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+      h1,
+      h2,
+      h3 {
+        line-height: 1.12;
+        font-weight: 600;
+      }
+      h2 {
+        font-size: clamp(2rem, 3.8vw, 3.25rem);
+        letter-spacing: -0.045em;
+      }
+      h3 {
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+      button {
+        color: inherit;
+        cursor: pointer;
+      }
+      button,
+      a {
+        touch-action: manipulation;
+      }
+      button,
+      a,
+      input,
+      textarea,
+      select {
+        -webkit-tap-highlight-color: transparent;
+      }
+      :focus-visible {
+        outline: 2px solid var(--highlight);
+        outline-offset: 5px;
+      }
+      ::selection {
+        background: var(--highlight);
+        color: var(--ink);
+      }
+      [hidden] {
+        display: none !important;
+      }
+      svg {
+        display: block;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      .wrap {
+        width: min(1240px, calc(100% - 96px));
+        margin-inline: auto;
+      }
+      .mono,
+      code {
+        font-family: var(--mono);
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .accent {
+        color: var(--highlight);
+      }
+      .eyebrow {
+        font: 12px/1.6 var(--mono);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip {
+        position: fixed;
+        top: -80px;
+        left: 20px;
+        padding: 10px 16px;
+        background: var(--highlight);
+        color: var(--ink);
+        z-index: 50;
+      }
+      .skip:focus {
+        top: 12px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        font-size: 21px;
+        font-weight: 600;
+        letter-spacing: -0.04em;
+      }
+      .brand svg {
+        width: 28px;
+        height: 28px;
+        color: var(--highlight);
+      }
+      .brand small {
+        font: 12px var(--mono);
+        letter-spacing: 0;
+        color: var(--muted);
+      }
+      .button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 22px;
+        min-height: 48px;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 13px 20px;
+        background: transparent;
+        font-size: 14px;
+        font-weight: 600;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s,
+          background 0.3s;
+      }
+      .button.primary {
+        background: var(--highlight);
+        color: var(--ink);
+        border-color: var(--highlight);
+      }
+      .button.primary:hover {
+        box-shadow: 0 0 25px
+          color-mix(in srgb, var(--highlight) 24%, transparent);
+        transform: translateY(-2px);
+      }
+      .button.secondary:hover {
+        border-color: var(--accent);
+        background: var(--soft);
+      }
+      .cta-row {
+        display: flex;
+        gap: 13px;
+        flex-wrap: wrap;
+      }
+      .hero {
+        position: relative;
+        padding: 74px 0 35px;
+        isolation: isolate;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 65px;
+        align-items: center;
+      }
+      .hero-copy > .eyebrow {
+        color: var(--highlight);
+        margin-bottom: 20px;
+      }
+      .hero h1 {
+        font-size: clamp(3.4rem, 5.6vw, 5.25rem);
+        line-height: 1.045;
+        letter-spacing: -0.06em;
+      }
+      .hero h1 span {
+        color: var(--highlight);
+      }
+      .hero-intro {
+        font-size: 18px;
+        color: var(--muted);
+        max-width: 510px;
+        line-height: 1.8;
+        margin: 27px 0 29px;
+      }
+      .hero-intro strong {
+        font-weight: 600;
+        color: var(--text);
+      }
+      .hero-footnote {
+        color: var(--muted);
+        font: 12px/1.8 var(--mono);
+        margin-top: 27px;
+      }
+      .hero-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        border-block: 1px solid var(--border);
+        padding: 23px 0;
+        margin-top: 45px;
+      }
+      .expertise-list {
+        display: flex;
+        gap: 27px;
+        flex-wrap: wrap;
+        font: 12px var(--mono);
+        color: var(--muted);
+      }
+      .scroll-cue {
+        font: 12px var(--mono);
+        display: flex;
+        gap: 22px;
+        color: var(--highlight);
+      }
+      .section {
+        padding: 85px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 35px;
+        margin-bottom: 35px;
+      }
+      .section-head .eyebrow {
+        color: var(--highlight);
+        margin-bottom: 14px;
+      }
+      .section-intro {
+        max-width: 415px;
+        font-size: 16px;
+        color: var(--muted);
+      }
+      .case-intro {
+        padding-top: 80px;
+      }
+      .case-title {
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        max-width: 780px;
+        line-height: 1.08;
+        letter-spacing: -0.055em;
+        margin: 20px 0;
+      }
+      .case-subtitle {
+        font-size: 21px;
+        color: var(--muted);
+        max-width: 780px;
+      }
+      .case-brief {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 90px;
+        margin-top: 36px;
+      }
+      .case-brief p {
+        color: var(--muted);
+        font-size: 16px;
+        max-width: 630px;
+      }
+      .project-facts {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 11px 16px;
+        font-size: 14px;
+        margin: 0;
+      }
+      .project-facts dt {
+        color: var(--muted);
+      }
+      .project-facts dd {
+        margin: 0;
+      }
+      .source-note {
+        font: 12px/1.8 var(--mono);
+        color: var(--muted);
+      }
+      .case-intro > .source-note {
+        margin-top: 14px;
+      }
+      .case-block {
+        padding: 55px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .block-heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 40px;
+        margin-bottom: 28px;
+      }
+      .block-heading h3 {
+        font-size: 30px;
+        margin-top: 10px;
+        letter-spacing: -0.035em;
+      }
+      .block-heading > p {
+        color: var(--muted);
+        max-width: 500px;
+        font-size: 16px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        scrollbar-width: thin;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 17px 20px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: middle;
+      }
+      thead {
+        background: var(--card);
+      }
+      th {
+        font: 12px/1.6 var(--mono);
+        font-weight: 400;
+        color: var(--muted);
+      }
+      tbody tr:last-child td {
+        border-bottom: 0;
+      }
+      tbody tr:hover {
+        background: color-mix(in srgb, var(--accent) 4%, transparent);
+      }
+      td code {
+        font-size: 13px;
+        color: var(--highlight);
+        white-space: nowrap;
+      }
+      .data-table {
+        min-width: 650px;
+      }
+      .data-table td:first-child {
+        font-weight: 500;
+      }
+      .data-table strong {
+        font-size: 23px;
+        font-weight: 500;
+        color: var(--highlight);
+      }
+      .table-caption {
+        margin-top: 12px;
+      }
+      details {
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: color-mix(in srgb, var(--soft) 65%, transparent);
+        margin-top: 20px;
+      }
+      summary {
+        padding: 16px 20px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      summary::marker {
+        color: var(--highlight);
+      }
+      details[open] summary {
+        border-bottom: 1px solid var(--border);
+      }
+      .details-content {
+        padding: 20px;
+      }
+      .synthesis-summary {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        padding: 24px 0;
+        border-block: 1px solid var(--border);
+        margin: 26px 0;
+      }
+      .synthesis-summary strong {
+        font-size: 28px;
+        font-weight: 500;
+        line-height: 1.3;
+        letter-spacing: -0.04em;
+        display: block;
+      }
+      .synthesis-summary span {
+        font: 12px var(--mono);
+        color: var(--muted);
+      }
+      .timing-list {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px 30px;
+        margin: 23px 0;
+        font-size: 14px;
+      }
+      .timing-list dt {
+        color: var(--muted);
+      }
+      .timing-list dd {
+        margin: 0;
+        font-family: var(--mono);
+      }
+      .hardware-layout {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 55px;
+      }
+      .hardware-layout h4 {
+        font-size: 18px;
+        margin: 0;
+        font-weight: 500;
+      }
+      .hardware-copy {
+        color: var(--muted);
+        font-size: 15px;
+        margin-top: 20px;
+      }
+      .background-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 90px;
+      }
+      .background-section h2 {
+        margin-top: 18px;
+      }
+      .background-copy {
+        font-size: 16px;
+        color: var(--muted);
+        margin-top: 23px;
+        max-width: 490px;
+      }
+      .timeline {
+        padding-left: 25px;
+        border-left: 1px solid var(--border);
+      }
+      .timeline article {
+        position: relative;
+        padding-bottom: 30px;
+      }
+      .timeline article:last-child {
+        padding-bottom: 0;
+      }
+      .timeline article::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border: 1px solid var(--accent);
+        background: var(--bg);
+        position: absolute;
+        left: -30px;
+        top: 9px;
+        border-radius: 50%;
+      }
+      .timeline-date {
+        font: 12px var(--mono);
+        color: var(--muted);
+      }
+      .timeline h3 {
+        font-size: 18px;
+        margin: 10px 0 7px;
+        line-height: 1.4;
+      }
+      .timeline p {
+        font-size: 14px;
+        margin-bottom: 7px;
+      }
+      .timeline article > span:last-child {
+        display: block;
+        font-size: 14px;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+      .contact-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 70px;
+        align-items: center;
+      }
+      .contact-copy h2 {
+        font-size: clamp(2.6rem, 4.2vw, 3.7rem);
+        line-height: 1.12;
+        margin: 20px 0 24px;
+      }
+      .contact-copy > p:not(.eyebrow) {
+        max-width: 390px;
+        font-size: 16px;
+        color: var(--muted);
+      }
+      .contact-location {
+        font-size: 12px;
+        letter-spacing: 0.1em;
+      }
+      footer {
+        padding: 30px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        font: 12px var(--mono);
+        color: var(--muted);
+      }
+      .back-top:hover {
+        color: var(--highlight);
+      }
+      @media (max-width: 1100px) {
+        .wrap {
+          width: calc(100% - 56px);
+        }
+        .brand small {
+          display: none;
+        }
+        .hero-grid {
+          gap: 30px;
+          grid-template-columns: 1.2fr 1fr;
+        }
+        .hero h1 {
+          font-size: 4.1rem;
+        }
+        .case-brief {
+          gap: 45px;
+        }
+        .background-section,
+        .contact-section {
+          gap: 50px;
+        }
+        .hardware-layout {
+          gap: 35px;
+        }
+      }
+      @media (max-width: 900px) {
+        .hero {
+          padding-top: 48px;
+        }
+        .hero-grid {
+          grid-template-columns: 1.1fr 1fr;
+          gap: 22px;
+        }
+        .hero h1 {
+          font-size: 3.4rem;
+        }
+        .hero-intro {
+          font-size: 16px;
+        }
+        .hero-bottom {
+          align-items: flex-start;
+        }
+        .expertise-list {
+          gap: 13px 23px;
+          max-width: 450px;
+        }
+        .case-brief {
+          grid-template-columns: 1fr 1fr;
+          gap: 30px;
+        }
+        .hardware-layout {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+        .block-heading {
+          flex-direction: column;
+          gap: 18px;
+        }
+        .block-heading > p {
+          max-width: 100%;
+        }
+        .section {
+          padding: 60px 0;
+        }
+      }
+      @media (max-width: 600px) {
+        .wrap {
+          width: calc(100% - 40px);
+        }
+        .brand {
+          font-size: 19px;
+        }
+        .brand svg {
+          width: 24px;
+          height: 24px;
+        }
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+        .hero {
+          padding-top: 39px;
+        }
+        .hero h1 {
+          font-size: clamp(3rem, 11vw, 4rem);
+        }
+        .hero-copy > .eyebrow {
+          font-size: 12px;
+        }
+        .hero-intro {
+          margin: 23px 0;
+        }
+        .hero-bottom {
+          margin-top: 24px;
+          flex-direction: column;
+          gap: 18px;
+        }
+        .expertise-list {
+          font-size: 11px;
+          gap: 12px 17px;
+        }
+        .scroll-cue {
+          font-size: 12px;
+        }
+        .hero-footnote {
+          margin-top: 20px;
+        }
+        .case-intro {
+          padding-top: 50px;
+        }
+        .case-title {
+          font-size: 2.7rem;
+        }
+        .case-subtitle {
+          font-size: 18px;
+        }
+        .case-brief {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+        .case-block {
+          padding: 40px 0;
+        }
+        .block-heading h3 {
+          font-size: 26px;
+        }
+        .section-head {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 20px;
+        }
+        .synthesis-summary {
+          gap: 10px;
+        }
+        .synthesis-summary strong {
+          font-size: 25px;
+        }
+        .synthesis-summary span {
+          font-size: 11px;
+        }
+        .background-section,
+        .contact-section {
+          grid-template-columns: 1fr;
+          gap: 38px;
+        }
+        .background-copy {
+          margin-top: 20px;
+        }
+        .contact-copy h2 {
+          font-size: 2.65rem;
+        }
+        footer {
+          align-items: flex-start;
+          flex-wrap: wrap;
+        }
+        .hero .button {
+          padding: 12px 17px;
+          gap: 13px;
+        }
+      }
+      @media (max-width: 360px) {
+        .brand {
+          font-size: 18px;
+          gap: 7px;
+        }
+        .hero h1 {
+          font-size: 2.95rem;
+        }
+      }
+      .hardware-layout > *,
+      .case-brief > *,
+      .background-section > *,
+      .contact-section > * {
+        min-width: 0;
+      }
+      @media (max-width: 600px) {
+        .synthesis-summary {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .synthesis-summary > div:last-child {
+          grid-column: 1/-1;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+      .thesis-section {
+        padding-bottom: 60px;
+        border-bottom: 1px solid var(--border);
+      }
+      .thesis-detail {
+        margin-top: 20px;
+      }
+      @media (max-width: 600px) {
+        .thesis-section {
+          padding-bottom: 45px;
+        }
+      }
+      /* Synchronized single-trap RTN illustration. */
+      .rtn-feature {
+        --rtn-high: var(--highlight);
+        --rtn-low: #e9ae62;
+        --rtn-electron: #7dd3fc;
+        margin: 44px 0 0;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--soft);
+        overflow: hidden;
+      }
+      .rtn-feature[data-state="occupied"] {
+        --rtn-state: var(--rtn-low);
+      }
+      .rtn-feature[data-state="empty"] {
+        --rtn-state: var(--rtn-high);
+      }
+      [data-theme="silicon"] .rtn-feature {
+        --rtn-low: #a45a09;
+        --rtn-electron: #0369a1;
+      }
+      .rtn-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 25px;
+        padding: 27px 30px 22px;
+      }
+      .rtn-heading h3 {
+        font-size: 25px;
+        letter-spacing: -0.035em;
+        margin-top: 10px;
+      }
+      .rtn-pause {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        flex: none;
+        border: 1px solid var(--border);
+        background: var(--card);
+        border-radius: 5px;
+        min-height: 39px;
+        padding: 8px 12px;
+        font: 12px var(--mono);
+      }
+      .rtn-pause:hover {
+        border-color: var(--accent);
+      }
+      #rtn-pause-icon {
+        width: 14px;
+        text-align: center;
+      }
+      .rtn-status-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 13px 30px;
+        background: var(--card);
+        border-block: 1px solid var(--border);
+        font: 12px var(--mono);
+      }
+      .rtn-live-state {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: var(--rtn-state);
+      }
+      .rtn-live-state i {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+        box-shadow: 0 0 9px
+          color-mix(in srgb, var(--rtn-state) 45%, transparent);
+      }
+      .rtn-current-state {
+        color: var(--muted);
+      }
+      .rtn-visuals {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 0;
+      }
+      .rtn-device-panel,
+      .rtn-chart-panel {
+        min-width: 0;
+        padding: 24px 20px 20px;
+      }
+      .rtn-chart-panel {
+        border-left: 1px solid var(--border);
+      }
+      .rtn-panel-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        font: 11px var(--mono);
+        color: var(--muted);
+        margin: 0 8px 20px;
+      }
+      .rtn-device,
+      .rtn-chart {
+        width: 100%;
+        height: auto;
+        display: block;
+        overflow: visible;
+      }
+      .rtn-device text,
+      .rtn-chart text {
+        font-family: var(--mono);
+      }
+      .rtn-svg-label {
+        font-size: 12px;
+        fill: var(--muted);
+        letter-spacing: 0.02em;
+      }
+      .rtn-leader {
+        fill: none;
+        stroke: var(--muted);
+        stroke-width: 1;
+        opacity: 0.6;
+      }
+      .rtn-gate {
+        fill: color-mix(in srgb, var(--gold) 16%, var(--card));
+        stroke: color-mix(in srgb, var(--gold) 60%, var(--border));
+        stroke-width: 1;
+      }
+      .rtn-oxide {
+        fill: color-mix(in srgb, var(--gold) 4%, var(--bg));
+        stroke: color-mix(in srgb, var(--gold) 50%, var(--border));
+        stroke-width: 1;
+      }
+      .rtn-silicon {
+        fill: var(--card);
+        stroke: var(--border);
+        stroke-width: 1;
+      }
+      .rtn-terminal {
+        fill: color-mix(in srgb, var(--accent) 12%, var(--card));
+        stroke: var(--border);
+        stroke-width: 1;
+      }
+      .rtn-doping {
+        fill: var(--muted);
+        font-size: 18px;
+      }
+      .rtn-channel-line {
+        stroke: var(--rtn-electron);
+        stroke-width: 1;
+        opacity: 0.35;
+      }
+      .rtn-substrate-label {
+        fill: var(--muted);
+        font-size: 12px;
+      }
+      .rtn-capture-guide {
+        fill: none;
+        stroke: var(--rtn-low);
+        stroke-width: 1;
+        stroke-dasharray: 3 5;
+        opacity: 0.45;
+      }
+      .rtn-trap-halo {
+        fill: color-mix(in srgb, var(--rtn-low) 6%, transparent);
+        stroke: var(--rtn-low);
+        stroke-width: 1;
+        opacity: 0.45;
+      }
+      .rtn-trap-ring {
+        fill: var(--soft);
+        stroke: var(--rtn-low);
+        stroke-width: 1.5;
+        stroke-dasharray: 3 3;
+      }
+      .rtn-defect-label {
+        fill: var(--rtn-low);
+        font-size: 11px;
+      }
+      .rtn-main-electron {
+        fill: var(--rtn-electron);
+        filter: drop-shadow(
+          0 0 4px color-mix(in srgb, var(--rtn-electron) 65%, transparent)
+        );
+      }
+      .rtn-charge-field {
+        fill: color-mix(in srgb, var(--rtn-low) 18%, transparent);
+        stroke: color-mix(in srgb, var(--rtn-low) 15%, transparent);
+        stroke-width: 1;
+      }
+      .rtn-feature[data-state="occupied"] .rtn-main-electron {
+        fill: var(--rtn-low);
+        filter: drop-shadow(
+          0 0 4px color-mix(in srgb, var(--rtn-low) 60%, transparent)
+        );
+      }
+      .rtn-feature[data-state="occupied"] .rtn-trap-ring {
+        stroke-dasharray: none;
+      }
+      .rtn-feature[data-state="occupied"] .rtn-trap-halo {
+        opacity: 0.85;
+      }
+      .rtn-device-note {
+        font-size: 13px;
+        line-height: 1.65;
+        color: var(--muted);
+        margin: 13px 8px 0;
+        min-height: 43px;
+        max-width: 500px;
+      }
+      .rtn-axis {
+        stroke: var(--muted);
+        stroke-width: 1;
+        fill: none;
+        opacity: 0.5;
+      }
+      .rtn-chart-grid {
+        stroke: var(--border);
+        stroke-width: 1;
+        stroke-dasharray: 3 5;
+        fill: none;
+      }
+      .rtn-axis-label {
+        font-size: 12px;
+        fill: var(--muted);
+      }
+      .rtn-level-high {
+        font-size: 11px;
+        fill: var(--rtn-high);
+      }
+      .rtn-level-low {
+        font-size: 11px;
+        fill: var(--rtn-low);
+      }
+      .rtn-current-trace {
+        stroke: var(--rtn-high);
+        stroke-width: 2.2;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .rtn-now-line {
+        stroke: var(--muted);
+        stroke-width: 1;
+        stroke-dasharray: 2 4;
+        opacity: 0.6;
+      }
+      .rtn-current-dot {
+        fill: var(--rtn-state);
+        filter: drop-shadow(
+          0 0 4px color-mix(in srgb, var(--rtn-state) 50%, transparent)
+        );
+      }
+      .rtn-time-label {
+        font-family: var(--mono);
+        font-size: 15px;
+        fill: var(--rtn-high);
+      }
+      .rtn-time-label.emission {
+        fill: var(--rtn-low);
+      }
+      .rtn-time-bracket {
+        stroke: var(--rtn-high);
+        stroke-width: 1;
+        fill: none;
+        opacity: 0.7;
+      }
+      .rtn-time-bracket.emission {
+        stroke: var(--rtn-low);
+      }
+      .rtn-interval-readout {
+        padding: 0 8px;
+        margin-top: 10px;
+        font: 12px var(--mono);
+        color: var(--rtn-state);
+      }
+      .rtn-interval-track {
+        height: 2px;
+        background: var(--border);
+        margin-top: 14px;
+        overflow: hidden;
+      }
+      .rtn-interval-track > span {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: var(--rtn-state);
+        transform: scaleX(0);
+        transform-origin: left;
+      }
+      .rtn-explanations {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-top: 1px solid var(--border);
+      }
+      .rtn-explanation {
+        display: flex;
+        gap: 20px;
+        padding: 23px 30px;
+        transition: background 0.3s;
+      }
+      .rtn-explanation:first-child {
+        border-right: 1px solid var(--border);
+      }
+      .rtn-phase-symbol {
+        font-size: 31px;
+        line-height: 1.4;
+        color: var(--muted);
+        font-family: var(--mono);
+      }
+      .rtn-phase-symbol sub {
+        font-size: 16px;
+      }
+      .rtn-explanation h4 {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 0 0 7px;
+      }
+      .rtn-explanation p {
+        font-size: 13px;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+      .rtn-explanation strong {
+        font-weight: 500;
+        color: var(--text);
+      }
+      [data-state="empty"] .rtn-capture-copy {
+        background: color-mix(in srgb, var(--rtn-high) 5%, var(--soft));
+      }
+      [data-state="empty"] .rtn-capture-copy .rtn-phase-symbol {
+        color: var(--rtn-high);
+      }
+      [data-state="occupied"] .rtn-emission-copy {
+        background: color-mix(in srgb, var(--rtn-low) 5%, var(--soft));
+      }
+      [data-state="occupied"] .rtn-emission-copy .rtn-phase-symbol {
+        color: var(--rtn-low);
+      }
+      .rtn-caption {
+        padding: 15px 30px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        font: 11px/1.7 var(--mono);
+        color: var(--muted);
+      }
+      .rtn-caption a {
+        white-space: nowrap;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .rtn-next {
+        margin-top: 23px;
+        display: flex;
+        justify-content: flex-end;
+      }
+      .rtn-next a {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 5px 22px;
+        padding: 9px 0;
+      }
+      .rtn-next a > span:first-child {
+        font: 11px var(--mono);
+        color: var(--muted);
+      }
+      .rtn-next strong {
+        font-weight: 500;
+        font-size: 14px;
+        grid-column: 1;
+      }
+      .rtn-next-arrow {
+        grid-column: 2;
+        grid-row: 1/3;
+        align-self: center;
+        color: var(--highlight);
+        font-size: 24px;
+      }
+      .rtn-next a:hover strong {
+        color: var(--highlight);
+      }
+      @media (max-width: 1000px) {
+        .rtn-visuals {
+          grid-template-columns: 1fr 1fr;
+        }
+        .rtn-device-panel,
+        .rtn-chart-panel {
+          padding: 20px 13px;
+        }
+        .rtn-panel-label {
+          font-size: 10px;
+          gap: 8px;
+        }
+        .rtn-panel-label > span:last-child {
+          display: none;
+        }
+        .rtn-explanation {
+          padding: 22px;
+          gap: 14px;
+        }
+        .rtn-heading {
+          padding: 24px;
+        }
+        .rtn-caption {
+          padding: 14px 24px;
+          font-size: 10px;
+        }
+        .rtn-device-note {
+          font-size: 12px;
+        }
+      }
+      @media (max-width: 720px) {
+        .rtn-visuals {
+          grid-template-columns: 1fr;
+        }
+        .rtn-chart-panel {
+          border-left: 0;
+          border-top: 1px solid var(--border);
+        }
+        .rtn-device-panel,
+        .rtn-chart-panel {
+          padding: 22px 18px;
+        }
+        .rtn-panel-label {
+          font-size: 11px;
+          margin-bottom: 13px;
+        }
+        .rtn-panel-label > span:last-child {
+          display: inline;
+        }
+        .rtn-device {
+          max-height: 290px;
+        }
+        .rtn-chart {
+          max-height: 290px;
+        }
+        .rtn-device-note {
+          min-height: 0;
+          margin-top: 15px;
+          font-size: 13px;
+        }
+        .rtn-explanations {
+          grid-template-columns: 1fr;
+        }
+        .rtn-explanation:first-child {
+          border-right: 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .rtn-explanation {
+          padding: 20px 24px;
+        }
+        .rtn-heading {
+          padding: 22px;
+          align-items: flex-start;
+          gap: 16px;
+        }
+        .rtn-heading h3 {
+          font-size: 23px;
+        }
+        .rtn-heading .eyebrow {
+          font-size: 10px;
+        }
+        .rtn-status-row {
+          padding: 13px 22px;
+          flex-wrap: wrap;
+          gap: 9px;
+          font-size: 11px;
+        }
+        .rtn-caption {
+          flex-direction: column;
+          gap: 7px;
+          font-size: 11px;
+          padding: 15px 22px;
+        }
+        .rtn-pause {
+          font-size: 11px;
+          padding: 7px 10px;
+        }
+        .rtn-pause > span:first-child {
+          display: none;
+        }
+        .rtn-feature {
+          margin-top: 32px;
+        }
+        .rtn-next {
+          justify-content: flex-start;
+        }
+      }
+      /* Navigation: decorative layers never intercept these links. */
+      .nav {
+        position: relative;
+        z-index: 10;
+        min-height: 88px;
+        padding-block: 16px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 24px;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .nav-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 8px 12px;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        text-align: center;
+        white-space: nowrap;
+        transition:
+          color 0.2s,
+          background 0.2s;
+      }
+      .nav-links a:hover,
+      .nav-links a:focus-visible {
+        color: var(--highlight);
+        background: var(--soft);
+        border-color: var(--border);
+      }
+      .theme-control {
+        min-width: 0;
+      }
+      .theme-control select {
+        width: 198px;
+        max-width: 100%;
+        min-height: 44px;
+        padding: 9px 10px;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        background: var(--soft);
+        color: var(--text);
+        font: 12px var(--mono);
+      }
+      /* HERO BACKGROUND: replace this short URL with any image URL or local path. */
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: -88px calc((min(1240px, 100vw - 96px) - 100vw) / 2) 0;
+        z-index: -1;
+        pointer-events: none;
+        background-image:
+          linear-gradient(
+            90deg,
+            var(--bg) 0%,
+            color-mix(in srgb, var(--bg) 93%, transparent) 23%,
+            color-mix(in srgb, var(--bg) 55%, transparent) 64%,
+            color-mix(in srgb, var(--bg) 25%, transparent) 100%
+          ),
+          var(--pcb-image);
+        background-position: center;
+        background-size: cover;
+        mask-image: linear-gradient(#000 80%, transparent);
+      }
+      [data-theme="silicon"] .hero::before {
+        opacity: 0.55;
+        background-image:
+          linear-gradient(
+            90deg,
+            var(--bg) 0%,
+            color-mix(in srgb, var(--bg) 95%, transparent) 30%,
+            color-mix(in srgb, var(--bg) 45%, transparent) 100%
+          ),
+          var(--pcb-image);
+      }
+      /* PHOTO CROP: the frame stays 4:5 for every browser-supported image format.
+   Change the focal point (e.g. 50% 15%) if a replacement photo needs adjustment. */
+      .portrait {
+        --portrait-position: 50% 12%;
+        position: relative;
+        width: min(100%, 440px);
+        margin: 0 auto;
+        min-width: 0;
+        isolation: isolate;
+      }
+      .portrait-frame {
+        position: relative;
+        aspect-ratio: 4/5;
+        overflow: hidden;
+        border-radius: 32px 32px 10px 10px;
+        isolation: isolate;
+      }
+      .portrait-frame::before {
+        content: "";
+        position: absolute;
+        inset: 24% 8% 0 10%;
+        z-index: -1;
+        background: linear-gradient(145deg, #c6b686, #8d815f);
+        border-radius: 34px 34px 8px 8px;
+        box-shadow: 0 22px 65px #0003;
+        pointer-events: none;
+      }
+      .portrait img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: var(--portrait-position);
+        filter: drop-shadow(0 15px 22px #0004);
+      }
+      .portrait::after {
+        content: "+";
+        font: 40px var(--mono);
+        color: var(--muted);
+        opacity: 0.35;
+        position: absolute;
+        top: 30px;
+        right: 4%;
+        pointer-events: none;
+      }
+      .portrait figcaption {
+        position: absolute;
+        right: -18px;
+        top: 53%;
+        writing-mode: vertical-rl;
+        font: 11px var(--mono);
+        letter-spacing: 0.18em;
+        color: var(--muted);
+        pointer-events: none;
+      }
+      .project-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+      .project-links .button {
+        font-size: 13px;
+        gap: 12px;
+      }
+      [aria-disabled="true"] {
+        opacity: 0.6;
+        cursor: default;
+      }
+      .language-note {
+        font-size: 13px;
+      }
+      .skills-grid {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .skills-grid li {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+        padding: 22px 18px;
+        background: var(--soft);
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .skills-grid li:hover {
+        border-color: var(--accent);
+        transform: translateY(-3px);
+      }
+      .skill-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        width: 48px;
+        height: 48px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        color: var(--highlight);
+      }
+      .skill-icon img,
+      .skill-icon svg {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+      .skills-grid h3 {
+        font-size: 15px;
+        line-height: 1.4;
+        letter-spacing: -0.01em;
+      }
+      .skills-grid p {
+        font-size: 11px;
+        line-height: 1.6;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .skills-note {
+        font: 12px/1.8 var(--mono);
+        color: var(--muted);
+        margin-top: 24px;
+      }
+      .contact-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .contact-button {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-height: 85px;
+        padding: 22px;
+        background: var(--soft);
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .contact-button[href]:hover {
+        background: var(--card);
+        border-color: var(--highlight);
+        transform: translateY(-3px);
+      }
+      .contact-button > svg {
+        width: 23px;
+        height: 23px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex: none;
+      }
+      .contact-button > svg:last-child {
+        margin-left: auto;
+        width: 17px;
+        height: 17px;
+        color: var(--muted);
+      }
+      .social-letter {
+        font:
+          bold 24px Arial,
+          sans-serif;
+        letter-spacing: -1px;
+        width: 23px;
+      }
+      .contact-location {
+        margin-top: 27px;
+      }
+      .icon-credit {
+        font: 11px/1.7 var(--mono);
+        color: var(--muted);
+        padding-bottom: 25px;
+      }
+      .icon-credit a {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      @media (max-width: 1100px) {
+        .nav {
+          gap: 16px;
+        }
+        .nav-links {
+          gap: 0;
+        }
+        .nav-links a {
+          padding-inline: 10px;
+        }
+        .hero::before {
+          inset: -88px -28px 0;
+        }
+        .skills-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 900px) {
+        .nav {
+          grid-template-columns: 1fr auto;
+          gap: 12px;
+        }
+        .nav-links {
+          grid-column: 1/-1;
+          grid-row: 2;
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+        .nav-links a {
+          background: color-mix(in srgb, var(--soft) 70%, transparent);
+        }
+        .contact-section {
+          gap: 35px;
+        }
+        .contact-button {
+          padding: 18px;
+          gap: 10px;
+        }
+        .skills-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 600px) {
+        .hero::before {
+          inset: -160px -20px 0;
+          background-position: 65% center;
+        }
+        .portrait {
+          width: min(360px, calc(100% - 20px));
+          margin-top: 14px;
+        }
+        .portrait figcaption {
+          right: -17px;
+          font-size: 10px;
+        }
+        .contact-section {
+          grid-template-columns: 1fr;
+        }
+        .skills-grid li {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 18px;
+          gap: 12px;
+        }
+        .skills-grid h3 {
+          font-size: 14px;
+        }
+        .contact-button {
+          min-height: 75px;
+          font-size: 14px;
+        }
+        .contact-copy h2 {
+          margin-bottom: 20px;
+        }
+        .nav-links a {
+          font-size: 13px;
+        }
+        .theme-control select {
+          width: 180px;
+        }
+      }
+      @media (max-width: 420px) {
+        .nav {
+          gap: 10px;
+        }
+        .theme-control select {
+          width: 157px;
+          font-size: 11px;
+        }
+        .nav-links {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 4px;
+        }
+        .nav-links a {
+          white-space: normal;
+        }
+        .contact-buttons {
+          gap: 10px;
+        }
+        .contact-button {
+          padding: 15px 12px;
+          gap: 8px;
+        }
+        .brand {
+          font-size: 18px;
+        }
+      }
+      .button svg {
+        width: 19px;
+        height: 19px;
+        flex: none;
+      }
+      .project-links svg {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <svg
+      aria-hidden="true"
+      style="position: absolute; width: 0; height: 0; overflow: hidden"
+    >
+      <defs>
+        <symbol id="arrow" viewBox="0 0 24 24">
+          <path
+            d="M5 12h14m-5-5 5 5-5 5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+        <symbol id="diagonal" viewBox="0 0 24 24">
+          <path
+            d="M6 18 18 6M6 6h12v12"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+        <symbol id="chip" viewBox="0 0 32 32">
+          <rect
+            x="9"
+            y="9"
+            width="14"
+            height="14"
+            rx="2"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path
+            d="M13 3v6m6-6v6m-6 14v6m6-6v6M3 13h6m-6 6h6m14-6h6m-6 6h6"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <rect x="13" y="13" width="6" height="6" rx="1" fill="currentColor" />
+        </symbol>
+        <symbol id="mail" viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 6 9 7 9-7" />
+        </symbol>
+        <symbol id="phone" viewBox="0 0 24 24">
+          <path
+            d="m8 3 3 5-3 3a14 14 0 0 0 5 5l3-3 5 3v3c0 1-1 2-2 2C10 21 3 14 3 5c0-1 1-2 2-2z"
+          />
+        </symbol>
+        <symbol id="code" viewBox="0 0 24 24">
+          <path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18" />
+        </symbol>
+      </defs>
+    </svg>
+    <header class="wrap nav" id="top">
+      <a href="#top" class="brand" aria-label="Alapati home"
+        ><svg aria-hidden="true"><use href="#chip" /></svg>alapati
+        <small>/ digital hardware</small></a
+      >
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#about">About me</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills (tools)</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="theme-control">
+        <label for="theme-select" class="sr-only">Color theme</label
+        ><select id="theme-select">
+          <option value="pcb">Circuit Board Green</option>
+          <option value="logic">Logic Analyzer</option>
+          <option value="silicon">Clean Silicon</option>
+        </select>
+      </div>
+    </header>
+    <main id="main" class="wrap">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Digital IC design &amp; embedded systems</p>
+            <h1 id="hero-title">
+              Engineering<br />at the <span>logic<br />level.</span>
+            </h1>
+            <p class="hero-intro">
+              I’m <strong>Jan Alapati</strong>, an M.Sc. Microelectronics
+              student focused on digital hardware, VHDL development, and ASIC
+              implementation.
+            </p>
+            <div class="cta-row">
+              <a class="button primary" href="#projects"
+                >Explore my work
+                <svg aria-hidden="true"><use href="#arrow" /></svg></a
+              ><a class="button secondary" href="#contact"
+                >Get in touch
+                <svg aria-hidden="true"><use href="#diagonal" /></svg
+              ></a>
+            </div>
+            <p class="hero-footnote">
+              University of Bremen<br />Bremen, Germany
+            </p>
+          </div>
+          <figure class="portrait">
+            <div class="portrait-frame">
+              <!-- PHOTO: replace this short src with your image path OR an https:// image URL.
+         PNG / WebP / AVIF with transparency works best. JPEG and SVG also fit.
+         CSS handles the crop; adjust --portrait-position only if needed. -->
+              <img
+                id="portrait-photo"
+                src="KD.png"
+                alt="Jan Alapati — placeholder portrait"
+                width="1122"
+                height="1402"
+                fetchpriority="high"
+              />
+            </div>
+            <figcaption>VHDL / RTL / SILICON</figcaption>
+          </figure>
+        </div>
+        <div class="hero-bottom">
+          <div class="expertise-list">
+            <span>RTL DESIGN</span><span>VERIFICATION</span
+            ><span>SYNTHESIS &amp; STA</span><span>EMBEDDED SYSTEMS</span>
+          </div>
+          <a href="#projects" class="scroll-cue"
+            >Selected engineering work <span aria-hidden="true">↓</span></a
+          >
+        </div>
+      </section>
+
+      <section id="projects" aria-label="Selected engineering projects">
+        <article
+          id="master-thesis"
+          class="thesis-section"
+          aria-labelledby="thesis-title"
+        >
+          <header class="case-intro">
+            <p class="eyebrow accent">
+              Master’s thesis / Elmos Semiconductor AG
+            </p>
+            <h2 class="case-title" id="thesis-title">
+              Random Telegraph Noise<br />in 130 nm MOS devices
+            </h2>
+            <p class="case-subtitle">
+              Silicon characterization and automated measurement analysis.
+            </p>
+            <div class="case-brief">
+              <div>
+                <p>
+                  Investigated Random Telegraph Noise in 130 nm MOS devices
+                  under different measurement conditions, using automatic and
+                  manual probing stations.
+                </p>
+                <p class="thesis-detail">
+                  Worked with oscilloscopes, parameter analyzers, Source Measure
+                  Units, and a Red Pitaya FPGA. Developed Python automation for
+                  measurement data processing and analysis.
+                </p>
+              </div>
+              <dl class="project-facts">
+                <dt>Focus</dt>
+                <dd>Device characterization &amp; RTN</dd>
+                <dt>Tools</dt>
+                <dd>Python, Red Pitaya FPGA, SMUs</dd>
+                <dt>Period</dt>
+                <dd>Nov 2025 – Aug 2026</dd>
+                <dt>Scope</dt>
+                <dd>Measurements &amp; data analysis</dd>
+              </dl>
+            </div>
+            <div class="project-links">
+              <a
+                class="button secondary"
+                data-profile="thesisRepo"
+                role="link"
+                aria-disabled="true"
+                tabindex="0"
+                title="Repository link coming soon"
+                ><svg aria-hidden="true"><use href="#code" /></svg> GitHub
+                repository <svg aria-hidden="true"><use href="#diagonal" /></svg
+              ></a>
+            </div>
+          </header>
+          <figure
+            class="rtn-feature"
+            id="rtn-animation"
+            data-state="empty"
+            aria-labelledby="rtn-title"
+            aria-describedby="rtn-description"
+          >
+            <div class="rtn-heading">
+              <div>
+                <p class="eyebrow accent">A single defect, observed in time</p>
+                <h3 id="rtn-title">Carrier trapping. Current switching.</h3>
+              </div>
+              <button
+                class="rtn-pause"
+                id="rtn-pause"
+                type="button"
+                aria-pressed="false"
+                aria-label="Pause carrier animation"
+              >
+                <span id="rtn-pause-icon" aria-hidden="true">Ⅱ</span
+                ><span id="rtn-pause-label">Pause</span>
+              </button>
+            </div>
+            <p class="sr-only" id="rtn-description">
+              A looping, illustrative nMOS cross-section synchronized with drain
+              current. When the oxide trap is empty, current is high during the
+              capture waiting time. After a carrier is captured, current is low
+              during the emission waiting time. Emission returns the carrier to
+              the channel and current rises.
+            </p>
+            <div class="rtn-status-row">
+              <div class="rtn-live-state">
+                <i aria-hidden="true"></i
+                ><span id="rtn-state-name">Waiting for capture</span>
+              </div>
+              <span class="rtn-current-state" id="rtn-current-state"
+                >TRAP EMPTY / Iᴅ HIGH</span
+              >
+            </div>
+            <div class="rtn-visuals">
+              <div class="rtn-device-panel">
+                <div class="rtn-panel-label">
+                  <span>01 / MOS CROSS-SECTION</span
+                  ><span>nMOS · schematic</span>
+                </div>
+                <svg
+                  class="rtn-device"
+                  viewBox="0 0 640 310"
+                  role="img"
+                  aria-labelledby="rtn-device-title rtn-device-desc"
+                >
+                  <title id="rtn-device-title">
+                    An electron trap in the gate oxide
+                  </title>
+                  <desc id="rtn-device-desc">
+                    Electrons travel from source to drain through the channel.
+                    An oxide defect captures and releases a single electron,
+                    changing the drain current.
+                  </desc>
+                  <defs>
+                    <pattern
+                      id="rtn-oxide-pattern"
+                      width="9"
+                      height="9"
+                      patternUnits="userSpaceOnUse"
+                    >
+                      <path
+                        d="M0 9 9 0"
+                        stroke="currentColor"
+                        stroke-width=".6"
+                        opacity=".18"
+                      />
+                    </pattern>
+                    <linearGradient id="rtn-channel-gradient" x1="0" x2="1">
+                      <stop
+                        offset="0"
+                        stop-color="var(--rtn-electron)"
+                        stop-opacity=".06"
+                      />
+                      <stop
+                        offset=".5"
+                        stop-color="var(--rtn-electron)"
+                        stop-opacity=".2"
+                      />
+                      <stop
+                        offset="1"
+                        stop-color="var(--rtn-electron)"
+                        stop-opacity=".06"
+                      />
+                    </linearGradient>
+                  </defs>
+                  <text
+                    x="321"
+                    y="29"
+                    class="rtn-svg-label"
+                    text-anchor="middle"
+                  >
+                    GATE
+                  </text>
+                  <path d="M320 38v14" class="rtn-leader" />
+                  <rect
+                    x="185"
+                    y="52"
+                    width="270"
+                    height="51"
+                    rx="3"
+                    class="rtn-gate"
+                  />
+                  <path d="M200 77h240" stroke="var(--gold)" opacity=".35" />
+                  <rect
+                    x="170"
+                    y="112"
+                    width="300"
+                    height="59"
+                    rx="2"
+                    class="rtn-oxide"
+                  />
+                  <rect
+                    x="170"
+                    y="112"
+                    width="300"
+                    height="59"
+                    fill="url(#rtn-oxide-pattern)"
+                    color="var(--gold)"
+                  />
+                  <text x="511" y="135" class="rtn-svg-label">GATE OXIDE</text>
+                  <path d="M495 131h-24" class="rtn-leader" />
+                  <rect
+                    x="40"
+                    y="172"
+                    width="560"
+                    height="103"
+                    rx="4"
+                    class="rtn-silicon"
+                  />
+                  <rect
+                    x="40"
+                    y="172"
+                    width="120"
+                    height="66"
+                    rx="4"
+                    class="rtn-terminal"
+                  />
+                  <rect
+                    x="480"
+                    y="172"
+                    width="120"
+                    height="66"
+                    rx="4"
+                    class="rtn-terminal"
+                  />
+                  <text
+                    x="100"
+                    y="157"
+                    text-anchor="middle"
+                    class="rtn-svg-label"
+                  >
+                    SOURCE
+                  </text>
+                  <text
+                    x="540"
+                    y="157"
+                    text-anchor="middle"
+                    class="rtn-svg-label"
+                  >
+                    DRAIN
+                  </text>
+                  <text x="100" y="218" text-anchor="middle" class="rtn-doping">
+                    n⁺
+                  </text>
+                  <text x="540" y="218" text-anchor="middle" class="rtn-doping">
+                    n⁺
+                  </text>
+                  <rect
+                    x="55"
+                    y="177"
+                    width="530"
+                    height="22"
+                    rx="11"
+                    fill="url(#rtn-channel-gradient)"
+                  />
+                  <path d="M160 188h320" class="rtn-channel-line" />
+                  <ellipse
+                    id="rtn-charge-field"
+                    cx="320"
+                    cy="180"
+                    rx="48"
+                    ry="25"
+                    class="rtn-charge-field"
+                    opacity="0"
+                  />
+                  <g
+                    id="rtn-channel-carriers"
+                    fill="var(--rtn-electron)"
+                    aria-hidden="true"
+                  >
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                    <circle r="3.1" />
+                  </g>
+                  <path
+                    d="M270 188Q282 141 320 141"
+                    class="rtn-capture-guide"
+                  />
+                  <circle cx="320" cy="141" r="21" class="rtn-trap-halo" />
+                  <circle cx="320" cy="141" r="12" class="rtn-trap-ring" />
+                  <path d="M330 129 352 104h42" class="rtn-leader" />
+                  <text x="396" y="107" class="rtn-defect-label">
+                    OXIDE DEFECT
+                  </text>
+                  <g id="rtn-carrier" aria-hidden="true">
+                    <circle r="7" class="rtn-main-electron" />
+                    <path
+                      d="M-3 0h6"
+                      stroke="var(--bg)"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </g>
+                  <text
+                    x="320"
+                    y="254"
+                    text-anchor="middle"
+                    class="rtn-substrate-label"
+                  >
+                    SILICON / p-type substrate
+                  </text>
+                  <path d="M240 297h155m-6-4 6 4-6 4" class="rtn-leader" />
+                  <text
+                    x="320"
+                    y="289"
+                    text-anchor="middle"
+                    class="rtn-svg-label"
+                  >
+                    electron motion
+                  </text>
+                </svg>
+                <p class="rtn-device-note" id="rtn-device-note">
+                  The defect is empty. A carrier approaches through the channel.
+                </p>
+              </div>
+              <div class="rtn-chart-panel">
+                <div class="rtn-panel-label">
+                  <span>02 / DRAIN CURRENT</span><span>Iᴅ vs. time</span>
+                </div>
+                <svg
+                  class="rtn-chart"
+                  viewBox="0 0 510 310"
+                  role="img"
+                  aria-labelledby="rtn-chart-title rtn-chart-desc"
+                >
+                  <title id="rtn-chart-title">
+                    Two-level drain-current trace
+                  </title>
+                  <desc id="rtn-chart-desc">
+                    The high plateau corresponds to an empty trap and capture
+                    waiting time. The low plateau corresponds to an occupied
+                    trap and emission waiting time. The newest value is at the
+                    right edge.
+                  </desc>
+                  <defs>
+                    <clipPath id="rtn-plot-clip">
+                      <rect x="60" y="31" width="429" height="209" />
+                    </clipPath>
+                  </defs>
+                  <text
+                    x="19"
+                    y="154"
+                    transform="rotate(-90 19 154)"
+                    class="rtn-axis-label"
+                    text-anchor="middle"
+                  >
+                    Drain current Iᴅ
+                  </text>
+                  <path d="M60 42v196h429" class="rtn-axis" />
+                  <path
+                    d="M60 82h428M60 178h428M145 42v196M230 42v196M315 42v196M400 42v196M485 42v196"
+                    class="rtn-chart-grid"
+                  />
+                  <text x="61" y="64" class="rtn-level-high">
+                    HIGH / EMPTY TRAP
+                  </text>
+                  <text x="61" y="214" class="rtn-level-low">
+                    LOW / OCCUPIED TRAP
+                  </text>
+                  <g clip-path="url(#rtn-plot-clip)">
+                    <path id="rtn-current-trace" class="rtn-current-trace" />
+                    <g id="rtn-time-labels" aria-hidden="true"></g>
+                    <path d="M485 35v203" class="rtn-now-line" />
+                    <circle
+                      id="rtn-current-dot"
+                      cx="485"
+                      cy="82"
+                      r="5"
+                      class="rtn-current-dot"
+                    />
+                  </g>
+                  <text
+                    x="271"
+                    y="269"
+                    class="rtn-axis-label"
+                    text-anchor="middle"
+                  >
+                    Time →
+                  </text>
+                  <text
+                    x="485"
+                    y="269"
+                    class="rtn-axis-label"
+                    text-anchor="end"
+                  >
+                    now
+                  </text>
+                </svg>
+                <div class="rtn-interval-readout">
+                  <span id="rtn-interval-label"
+                    >Capture waiting interval · τc</span
+                  >
+                  <div class="rtn-interval-track" aria-hidden="true">
+                    <span id="rtn-interval-progress"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="rtn-explanations">
+              <div class="rtn-explanation rtn-capture-copy">
+                <span class="rtn-phase-symbol">τ<sub>c</sub></span>
+                <div>
+                  <h4>Capture time</h4>
+                  <p>
+                    The trap waits for a carrier to be captured.<br /><strong
+                      >Empty trap → high drain current.</strong
+                    >
+                  </p>
+                </div>
+              </div>
+              <div class="rtn-explanation rtn-emission-copy">
+                <span class="rtn-phase-symbol">τ<sub>e</sub></span>
+                <div>
+                  <h4>Emission time</h4>
+                  <p>
+                    The carrier stays trapped until it is emitted.<br /><strong
+                      >Occupied trap → low drain current.</strong
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+            <figcaption class="rtn-caption">
+              <span
+                >Illustrative single-trap model · slowed timing · not
+                measurement data</span
+              ><a
+                href="https://www.sciencedirect.com/science/article/pii/S0038110121001830"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Physics reference ↗</a
+              >
+            </figcaption>
+          </figure>
+          <div class="rtn-next">
+            <a href="#master-project"
+              ><span>Next / Master’s project</span
+              ><strong>Extended Bit-Plane Compression</strong
+              ><span class="rtn-next-arrow" aria-hidden="true">↓</span></a
+            >
+          </div>
+        </article>
+
+        <article id="master-project" aria-labelledby="case-title">
+          <header class="case-intro">
+            <p class="eyebrow accent">
+              Master’s project / Universität Bremen · ITEM.IDS
+            </p>
+            <h2 class="case-title" id="case-title">
+              Extended Bit-Plane<br />Compression
+            </h2>
+            <p class="case-subtitle">
+              A VHDL hardware decoder for compressed neural-network weights.
+            </p>
+            <div class="case-brief">
+              <p>
+                Memory transfers place a significant burden on neural-network
+                accelerators. This project explores a lightweight, lossless
+                compression approach: encode 8-bit weights in Python, then
+                reconstruct them in hardware using a synthesizable VHDL decoder.
+              </p>
+              <dl class="project-facts">
+                <dt>Focus</dt>
+                <dd>Python encoder &amp; VHDL decoder</dd>
+                <dt>Tools</dt>
+                <dd>ModelSim, Synopsys Design Vision</dd>
+                <dt>Period</dt>
+                <dd>May 2025 – May 2026</dd>
+                <dt>Scope</dt>
+                <dd>RTL, verification, synthesis, timing</dd>
+              </dl>
+            </div>
+            <div class="project-links">
+              <a
+                class="button secondary"
+                data-profile="projectRepo"
+                role="link"
+                aria-disabled="true"
+                tabindex="0"
+                title="Repository link coming soon"
+                ><svg aria-hidden="true"><use href="#code" /></svg> GitHub
+                repository <svg aria-hidden="true"><use href="#diagonal" /></svg
+              ></a>
+            </div>
+          </header>
+
+          <section class="case-block" aria-labelledby="synthesis-title">
+            <div class="block-heading">
+              <div>
+                <p class="eyebrow accent">Implementation results</p>
+                <h3 id="synthesis-title">Area, power, and timing</h3>
+              </div>
+              <p>
+                A synthesized decoder with explicit hardware costs and an
+                identified timing bottleneck.
+              </p>
+            </div>
+            <div class="hardware-layout">
+              <div>
+                <h4>Post-synthesis · FreePDK</h4>
+                <div class="synthesis-summary">
+                  <div><strong>3,147</strong><span>cell area / µm²</span></div>
+                  <div><strong>3,988</strong><span>gate equivalents</span></div>
+                  <div>
+                    <strong>351.1363</strong><span>dynamic power / µW</span>
+                  </div>
+                </div>
+                <p class="source-note">
+                  Slide 18 post-synthesis totals. One gate equivalent
+                  corresponds to 0.789 µm² in the reported library.
+                </p>
+                <details>
+                  <summary>Reported module-level synthesis figures</summary>
+                  <div class="details-content">
+                    <div
+                      class="table-wrap"
+                      tabindex="0"
+                      role="region"
+                      aria-label="Module synthesis results"
+                    >
+                      <table class="data-table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Module</th>
+                            <th scope="col">Cell area (µm²)</th>
+                            <th scope="col">GE</th>
+                            <th scope="col">Dynamic power (µW)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Unpacker</td>
+                            <td>759</td>
+                            <td>962</td>
+                            <td>123.8991</td>
+                          </tr>
+                          <tr>
+                            <td>Symbol decoder</td>
+                            <td>279</td>
+                            <td>350</td>
+                            <td>57.5585</td>
+                          </tr>
+                          <tr>
+                            <td>Buffer</td>
+                            <td>988</td>
+                            <td>1,238</td>
+                            <td>105.7011</td>
+                          </tr>
+                          <tr>
+                            <td>Delta reverse</td>
+                            <td>283</td>
+                            <td>354</td>
+                            <td>67.9430</td>
+                          </tr>
+                          <tr>
+                            <td>ZRLE decoder</td>
+                            <td>497</td>
+                            <td>622</td>
+                            <td>83.2321</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <p class="source-note table-caption">
+                      Module figures and post-synthesis totals are separate
+                      entries in slide 18 and do not sum to the same total.
+                    </p>
+                  </div>
+                </details>
+              </div>
+              <div>
+                <h4>Static timing analysis · 45 nm library</h4>
+                <dl class="timing-list">
+                  <dt>Clock constraint</dt>
+                  <dd>8 ns / 125 MHz</dd>
+                  <dt>Critical path delay</dt>
+                  <dd>2.39 ns</dd>
+                  <dt>Worst slack</dt>
+                  <dd class="accent">+5.65 ns</dd>
+                  <dt>Timing status</dt>
+                  <dd class="accent">Met</dd>
+                  <dt>Estimated Fmax</dt>
+                  <dd>416 MHz</dd>
+                </dl>
+                <p class="hardware-copy">
+                  The critical path lies inside the unpacker’s stream register,
+                  through the barrel-shifter logic used for variable-length
+                  shifts.
+                </p>
+                <p class="source-note table-caption">
+                  Timing results: slide 19. Estimated frequency, not a measured
+                  silicon clock rate.
+                </p>
+              </div>
+            </div>
+          </section>
+        </article>
+      </section>
+
+      <section
+        id="about"
+        class="section background-section"
+        aria-labelledby="background-title"
+      >
+        <div>
+          <p class="eyebrow accent">Background &amp; experience</p>
+          <h2 id="background-title">
+            Digital design,<br />grounded in practice.
+          </h2>
+          <p class="background-copy">
+            I’m approaching the completion of my M.Sc. in Microelectronics at
+            the University of Bremen, with a focus on digital hardware
+            architecture, RTL design, and hardware accelerators.
+          </p>
+          <p class="background-copy">
+            I enjoy connecting the whole flow: writing clean logic,
+            understanding timing, and making thoughtful performance, power, and
+            area trade-offs.
+          </p>
+          <p class="background-copy mono language-note">
+            English C1 · German A2
+          </p>
+        </div>
+        <div class="timeline">
+          <article>
+            <span class="timeline-date">NOV 2025 — AUG 2026</span>
+            <h3>Master’s thesis</h3>
+            <p>Elmos Semiconductor AG</p>
+            <span class="muted"
+              >130 nm MOS characterization, automated measurement analysis, and
+              Random Telegraph Noise.</span
+            >
+          </article>
+          <article>
+            <span class="timeline-date">OCT 2024 — MAR 2025</span>
+            <h3>Telemetry engineer</h3>
+            <p>Astra e.V. · Voluntary work</p>
+            <span class="muted"
+              >Embedded firmware, LoRa communication, and real-time multisensor
+              acquisition.</span
+            >
+          </article>
+          <article>
+            <span class="timeline-date">APR 2024 — PRESENT</span>
+            <h3>M.Sc. Microelectronics</h3>
+            <p>University of Bremen</p>
+            <span class="muted"
+              >Digital IC design, integrated systems architectures, and physical
+              implementation.</span
+            >
+          </article>
+          <article>
+            <span class="timeline-date">AUG 2019 — AUG 2024</span>
+            <h3>B.E. Electronics &amp; Instrumentation</h3>
+            <p>B.M.S. College of Engineering, Bangalore</p>
+            <span class="muted"
+              >VLSI, embedded systems, and digital signal processing.</span
+            >
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="skills"
+        class="section skills-section"
+        aria-labelledby="skills-title"
+      >
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Skills / tools</p>
+            <h2 id="skills-title">From code to silicon.</h2>
+          </div>
+          <p class="section-intro">
+            The languages, design tools, and measurement platforms behind my
+            work.
+          </p>
+        </div>
+        <ul class="skills-grid">
+          <li>
+            <span class="skill-icon"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/python/python-original.svg"
+                width="34"
+                height="34"
+                alt=""
+                loading="lazy"
+            /></span>
+            <div>
+              <h3>Python</h3>
+              <p>Measurement automation</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/matlab/matlab-original.svg"
+                width="34"
+                height="34"
+                alt=""
+                loading="lazy"
+            /></span>
+            <div>
+              <h3>MATLAB</h3>
+              <p>Engineering computing</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><svg aria-hidden="true"><use href="#chip" /></svg
+            ></span>
+            <div>
+              <h3>VHDL</h3>
+              <p>RTL & testbenches</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><svg aria-hidden="true"><use href="#chip" /></svg
+            ></span>
+            <div>
+              <h3>SystemVerilog</h3>
+              <p>Foundational knowledge</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/cplusplus/cplusplus-original.svg"
+                width="34"
+                height="34"
+                alt=""
+                loading="lazy"
+            /></span>
+            <div>
+              <h3>C++</h3>
+              <p>Embedded firmware</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/arduino/arduino-original.svg"
+                width="34"
+                height="34"
+                alt=""
+                loading="lazy"
+            /></span>
+            <div>
+              <h3>Arduino</h3>
+              <p>Telemetry & prototyping</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/git/git-original.svg"
+                width="34"
+                height="34"
+                alt=""
+                loading="lazy"
+            /></span>
+            <div>
+              <h3>Git</h3>
+              <p>Version control</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/linux/linux-original.svg"
+                width="34"
+                height="34"
+                alt=""
+                loading="lazy"
+            /></span>
+            <div>
+              <h3>Linux</h3>
+              <p>Development environment</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><svg aria-hidden="true"><use href="#chip" /></svg
+            ></span>
+            <div>
+              <h3>ModelSim</h3>
+              <p>Functional simulation</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><svg aria-hidden="true"><use href="#chip" /></svg
+            ></span>
+            <div>
+              <h3>Design Vision</h3>
+              <p>Synopsys · RTL synthesis</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><svg aria-hidden="true"><use href="#chip" /></svg
+            ></span>
+            <div>
+              <h3>Innovus</h3>
+              <p>Cadence · physical design</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><svg aria-hidden="true"><use href="#chip" /></svg
+            ></span>
+            <div>
+              <h3>TetraMAX</h3>
+              <p>Synopsys · ATPG</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><svg aria-hidden="true"><use href="#chip" /></svg
+            ></span>
+            <div>
+              <h3>Static timing analysis</h3>
+              <p>Timing paths & slack</p>
+            </div>
+          </li>
+          <li>
+            <span class="skill-icon"
+              ><svg aria-hidden="true"><use href="#chip" /></svg
+            ></span>
+            <div>
+              <h3>DFT</h3>
+              <p>Scan-chain implementation</p>
+            </div>
+          </li>
+        </ul>
+        <p class="skills-note">
+          RTL design · Verification · Synthesis · Static timing analysis ·
+          RTL-to-GDS
+        </p>
+      </section>
+      <section
+        id="contact"
+        class="section contact-section"
+        aria-labelledby="contact-title"
+      >
+        <div class="contact-copy">
+          <p class="eyebrow accent">Contact</p>
+          <h2 id="contact-title">
+            Let’s talk<br /><span class="accent">engineering.</span>
+          </h2>
+          <p>
+            Have an opportunity in digital design, verification, or embedded
+            systems? I’d love to hear about it.
+          </p>
+          <p class="contact-location mono muted">BASED IN BREMEN, GERMANY</p>
+        </div>
+        <div class="contact-buttons" aria-label="Contact channels">
+          <a
+            class="contact-button"
+            data-profile="linkedin"
+            role="link"
+            aria-disabled="true"
+            tabindex="0"
+            title="LinkedIn details coming soon"
+            ><span class="social-letter" aria-hidden="true">in</span
+            ><span>LinkedIn</span
+            ><svg aria-hidden="true"><use href="#diagonal" /></svg
+          ></a>
+          <a
+            class="contact-button"
+            data-profile="email"
+            href="mailto:jan.alapati@example.com"
+            ><svg aria-hidden="true"><use href="#mail" /></svg><span>Gmail</span
+            ><svg aria-hidden="true"><use href="#diagonal" /></svg
+          ></a>
+          <a
+            class="contact-button"
+            data-profile="phone"
+            role="link"
+            aria-disabled="true"
+            tabindex="0"
+            title="Phone details coming soon"
+            ><svg aria-hidden="true"><use href="#phone" /></svg
+            ><span>Phone</span
+            ><svg aria-hidden="true"><use href="#diagonal" /></svg
+          ></a>
+          <a
+            class="contact-button"
+            data-profile="github"
+            role="link"
+            aria-disabled="true"
+            tabindex="0"
+            title="GitHub details coming soon"
+            ><svg aria-hidden="true"><use href="#code" /></svg
+            ><span>GitHub</span
+            ><svg aria-hidden="true"><use href="#diagonal" /></svg
+          ></a>
+        </div>
+      </section>
+      <footer>
+        <span>© <span id="year">2026</span> Jan Alapati</span
+        ><span>Digital hardware &amp; embedded systems</span
+        ><a href="#top" class="back-top">Back to top ↑</a>
+      </footer>
+      <p class="icon-credit">
+        Technology icons by
+        <a href="https://devicon.dev/" target="_blank" rel="noopener noreferrer"
+          >Devicon</a
+        >
+        · <a href="assets/DEVICON-LICENSE.txt">MIT license</a>
+      </p>
+    </main>
+
+    <script>
+      const $ = (selector) => document.querySelector(selector);
+      const themes = { pcb: "#0B130E", logic: "#0F172A", silicon: "#F8FAFC" };
+      function setTheme(key) {
+        if (!Object.hasOwn(themes, key)) return;
+        document.documentElement.dataset.theme = key;
+        $("#theme-select").value = key;
+        document.querySelector('meta[name="theme-color"]').content =
+          themes[key];
+        try {
+          localStorage.setItem("alapati-theme", key);
+        } catch {}
+      }
+      $("#theme-select").addEventListener("change", (event) =>
+        setTheme(event.target.value),
+      );
+      try {
+        const saved = localStorage.getItem("alapati-theme");
+        if (saved) setTheme(saved);
+      } catch {}
+
+      // Activate only the profile links you have supplied above.
+      for (const link of document.querySelectorAll("[data-profile]")) {
+        const key = link.dataset.profile;
+        const value = PROFILE[key].trim();
+        if (!value) continue;
+        if (key === "email") link.href = `mailto:${value}`;
+        else if (key === "phone")
+          link.href = `tel:${value.replace(/[^+\d]/g, "")}`;
+        else {
+          try {
+            if (new URL(value).protocol !== "https:") continue;
+          } catch {
+            continue;
+          }
+          link.href = value;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+        }
+        link.removeAttribute("aria-disabled");
+        link.removeAttribute("tabindex");
+        link.removeAttribute("title");
+      }
+      $("#year").textContent = new Date().getFullYear();
+
+      // An illustrative sequence of unequal dwell times, repeated indefinitely.
+      // The display is deliberately slowed; it is not a fit to measured RTN data.
+      const RTN_DWELLS = [5000, 4000, 6200, 3200, 4300, 5100];
+      const RTN_CYCLE = RTN_DWELLS.reduce((sum, value) => sum + value, 0);
+      function rtnStateAt(time) {
+        const cycle = Math.floor(time / RTN_CYCLE);
+        let start = cycle * RTN_CYCLE;
+        for (let index = 0; index < RTN_DWELLS.length; index++) {
+          const end = start + RTN_DWELLS[index];
+          if (time < end)
+            return {
+              index,
+              start,
+              end,
+              occupied: index % 2 === 1,
+              progress: (time - start) / RTN_DWELLS[index],
+            };
+          start = end;
+        }
+        return {
+          index: 0,
+          start: cycle * RTN_CYCLE + RTN_CYCLE,
+          end: cycle * RTN_CYCLE + RTN_CYCLE + RTN_DWELLS[0],
+          occupied: false,
+          progress: 0,
+        };
+      }
+      function rtnIntervals(time, windowMs = 19000) {
+        const left = time - windowMs,
+          intervals = [];
+        let cursor = left;
+        while (cursor < time) {
+          const state = rtnStateAt(cursor),
+            end = Math.min(state.end, time);
+          intervals.push({
+            occupied: state.occupied,
+            x1: (cursor - left) / windowMs,
+            x2: (end - left) / windowMs,
+            complete: cursor === state.start && end === state.end,
+          });
+          cursor = end;
+        }
+        return intervals;
+      }
+      const rtnFigure = $("#rtn-animation"),
+        rtnMotion = matchMedia("(prefers-reduced-motion: reduce)");
+      const rtnParticles = [
+        ...document.querySelectorAll("#rtn-channel-carriers circle"),
+      ];
+      let rtnElapsed = 0,
+        rtnPreviousFrame = null,
+        rtnFrameId = 0,
+        rtnPaused = rtnMotion.matches,
+        rtnLastState = "",
+        rtnLastRender = -Infinity;
+      function renderRTN(time) {
+        const state = rtnStateAt(time),
+          occupied = state.occupied,
+          phaseKey = String(state.start),
+          since = time - state.start,
+          remaining = state.end - time;
+        if (phaseKey !== rtnLastState) {
+          rtnLastState = phaseKey;
+          rtnFigure.dataset.state = occupied ? "occupied" : "empty";
+          $("#rtn-state-name").textContent = occupied
+            ? "Waiting for emission"
+            : "Waiting for capture";
+          $("#rtn-current-state").textContent = occupied
+            ? "TRAP OCCUPIED / Iᴅ LOW"
+            : "TRAP EMPTY / Iᴅ HIGH";
+          $("#rtn-device-note").textContent = occupied
+            ? "The carrier is trapped in the oxide. Drain current remains low until emission."
+            : "The defect is empty. Drain current stays high while the trap waits for a carrier.";
+          $("#rtn-interval-label").textContent = occupied
+            ? "Emission waiting interval · τe"
+            : "Capture waiting interval · τc";
+        }
+        // Capture finishes exactly as current steps low. Emission starts as it steps high.
+        let x = 270,
+          y = 188;
+        if (occupied) {
+          x = 320;
+          y = 141;
+        } else if (since < 700) {
+          const p = since / 700,
+            e = 1 - Math.pow(1 - p, 2);
+          x = 320 + 260 * e;
+          y = 141 + 47 * Math.min(1, p / 0.45);
+        } else if (remaining < 900) {
+          const p = 1 - remaining / 900,
+            e = p * p * (3 - 2 * p);
+          x = 270 + 50 * e;
+          y = 188 - 47 * e;
+        } else {
+          x =
+            85 +
+            185 * ((since - 700) / Math.max(1, state.end - state.start - 1600));
+          y = 188;
+        }
+        $("#rtn-carrier").setAttribute(
+          "transform",
+          `translate(${x.toFixed(2)} ${y.toFixed(2)})`,
+        );
+        $("#rtn-charge-field").setAttribute("opacity", occupied ? "1" : "0");
+        rtnParticles.forEach((particle, i) => {
+          const px = 62 + ((time * 0.044 + i * 44) % 520);
+          particle.setAttribute("cx", px.toFixed(2));
+          particle.setAttribute("cy", String(186 + Math.sin(i * 2.7) * 3));
+          particle.setAttribute(
+            "opacity",
+            occupied ? (i % 2 === 0 ? "0.23" : "0.62") : "0.8",
+          );
+        });
+        const intervals = rtnIntervals(time);
+        let d = "";
+        const labels = [];
+        intervals.forEach((part, i) => {
+          const x1 = 60 + part.x1 * 425,
+            x2 = 60 + part.x2 * 425,
+            py = part.occupied ? 178 : 82;
+          d += `${i ? "L" : "M"}${x1.toFixed(2)},${py}H${x2.toFixed(2)} `;
+          if (part.complete && x2 - x1 > 37) {
+            const ly = part.occupied ? 150 : 112,
+              cls = part.occupied ? " emission" : "";
+            labels.push(
+              `<path d="M${x1 + 4} ${ly - 4}v7h${x2 - x1 - 8}v-7" class="rtn-time-bracket${cls}"/><text x="${(x1 + x2) / 2}" y="${ly + 23}" text-anchor="middle" class="rtn-time-label${cls}">${part.occupied ? "τe" : "τc"}</text>`,
+            );
+          }
+        });
+        d += `L485,${occupied ? 178 : 82}`;
+        $("#rtn-current-trace").setAttribute("d", d);
+        $("#rtn-current-dot").setAttribute("cy", occupied ? "178" : "82");
+        $("#rtn-time-labels").innerHTML = labels.join("");
+        $("#rtn-interval-progress").style.transform =
+          `scaleX(${state.progress})`;
+      }
+      function rtnFrame(timestamp) {
+        if (rtnPaused || document.hidden) return;
+        if (rtnPreviousFrame !== null)
+          rtnElapsed += Math.min(timestamp - rtnPreviousFrame, 100);
+        rtnPreviousFrame = timestamp;
+        if (timestamp - rtnLastRender >= 32) {
+          renderRTN(rtnElapsed);
+          rtnLastRender = timestamp;
+        }
+        rtnFrameId = requestAnimationFrame(rtnFrame);
+      }
+      function setRTNPaused(paused) {
+        rtnPaused = paused;
+        cancelAnimationFrame(rtnFrameId);
+        rtnPreviousFrame = null;
+        $("#rtn-pause").setAttribute("aria-pressed", String(paused));
+        $("#rtn-pause").setAttribute(
+          "aria-label",
+          paused ? "Play carrier animation" : "Pause carrier animation",
+        );
+        $("#rtn-pause-label").textContent = paused ? "Play" : "Pause";
+        $("#rtn-pause-icon").textContent = paused ? "▶" : "Ⅱ";
+        if (!paused && !document.hidden)
+          rtnFrameId = requestAnimationFrame(rtnFrame);
+      }
+      $("#rtn-pause").addEventListener("click", () => setRTNPaused(!rtnPaused));
+      rtnMotion.addEventListener("change", (event) =>
+        setRTNPaused(event.matches),
+      );
+      document.addEventListener("visibilitychange", () => {
+        cancelAnimationFrame(rtnFrameId);
+        rtnPreviousFrame = null;
+        if (!document.hidden && !rtnPaused)
+          rtnFrameId = requestAnimationFrame(rtnFrame);
+      });
+      renderRTN(0);
+      setRTNPaused(rtnPaused);
+    </script>
+  </body>
+</html>

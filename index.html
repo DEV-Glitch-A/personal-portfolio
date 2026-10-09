@@ -1526,6 +1526,45 @@
         color: var(--muted);
         margin-top: 24px;
       }
+      .certifications-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 28px;
+      }
+      .certification-card {
+        background: color-mix(in srgb, var(--soft) 78%, transparent);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 24px 22px;
+        transition:
+          border-color 0.2s,
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .certification-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-3px);
+        box-shadow: 0 18px 28px rgba(0, 0, 0, 0.08);
+      }
+      .certification-type {
+        display: inline-block;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--highlight);
+        margin-bottom: 14px;
+      }
+      .certification-card h3 {
+        font-size: 1.25rem;
+        letter-spacing: -0.025em;
+        margin-bottom: 9px;
+      }
+      .certification-card p {
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.7;
+      }
       .contact-buttons {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1774,6 +1813,7 @@
         <a href="#about">About me</a>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
+        <a href="#certifications">Certifications</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="theme-control">
@@ -2505,6 +2545,15 @@
             <ul class="skills-grid">
               <li>
                 <span class="skill-icon"
+                  ><svg aria-hidden="true"><use href="#chip" /></svg
+                ></span>
+                <div>
+                  <h3>VHDL</h3>
+                  <p>RTL &amp; testbenches</p>
+                </div>
+              </li>
+              <li>
+                <span class="skill-icon"
                   ><img
                     src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/python/python-original.svg"
                     width="34"
@@ -2515,38 +2564,6 @@
                 <div>
                   <h3>Python</h3>
                   <p>Measurement automation</p>
-                </div>
-              </li>
-              <li>
-                <span class="skill-icon"
-                  ><img
-                    src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/matlab/matlab-original.svg"
-                    width="34"
-                    height="34"
-                    alt=""
-                    loading="lazy"
-                /></span>
-                <div>
-                  <h3>MATLAB</h3>
-                  <p>Engineering computing</p>
-                </div>
-              </li>
-              <li>
-                <span class="skill-icon"
-                  ><svg aria-hidden="true"><use href="#chip" /></svg
-                ></span>
-                <div>
-                  <h3>VHDL</h3>
-                  <p>RTL &amp; testbenches</p>
-                </div>
-              </li>
-              <li>
-                <span class="skill-icon"
-                  ><svg aria-hidden="true"><use href="#chip" /></svg
-                ></span>
-                <div>
-                  <h3>SystemVerilog</h3>
-                  <p>Foundational knowledge</p>
                 </div>
               </li>
               <li>
@@ -2610,15 +2627,7 @@
                   <p>Cadence · physical design</p>
                 </div>
               </li>
-              <li>
-                <span class="skill-icon"
-                  ><svg aria-hidden="true"><use href="#chip" /></svg
-                ></span>
-                <div>
-                  <h3>TetraMAX</h3>
-                  <p>Synopsys · ATPG</p>
-                </div>
-              </li>
+              
               <li>
                 <span class="skill-icon"
                   ><svg aria-hidden="true"><use href="#chip" /></svg
@@ -2635,6 +2644,15 @@
                 <div>
                   <h3>DFT</h3>
                   <p>Scan-chain implementation</p>
+                </div>
+              </li>
+              <li>
+                <span class="skill-icon"
+                  ><svg aria-hidden="true"><use href="#chip" /></svg
+                ></span>
+                <div>
+                  <h3>TetraMAX</h3>
+                  <p>Synopsys · ATPG</p>
                 </div>
               </li>
             </ul>
@@ -2680,6 +2698,53 @@
           RTL-to-GDS
         </p>
       </section>
+
+      <section
+        id="certifications"
+        class="section certifications-section"
+        aria-labelledby="certifications-title"
+      >
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Certifications</p>
+            <h2 id="certifications-title">Continuous learning in hardware.</h2>
+          </div>
+          <p class="section-intro">
+            Structured learning that complements my design, verification, and
+            embedded systems work.
+          </p>
+        </div>
+
+        <div class="certifications-grid">
+          <article class="certification-card">
+            <span class="certification-type mono">Course</span>
+            <h3>Digital IC Design</h3>
+            <p>
+              Focused on RTL design, synthesis, timing closure, and practical
+              hardware implementation workflows.
+            </p>
+          </article>
+
+          <article class="certification-card">
+            <span class="certification-type mono">Course</span>
+            <h3>Embedded Systems</h3>
+            <p>
+              Covered firmware development, real-time data acquisition, and
+              sensor-driven prototyping for physical systems.
+            </p>
+          </article>
+
+          <article class="certification-card">
+            <span class="certification-type mono">Course</span>
+            <h3>Python for Automation</h3>
+            <p>
+              Applied scripting for measurement automation, data processing, and
+              workflows in engineering research and testing.
+            </p>
+          </article>
+        </div>
+      </section>
+
       <section
         id="contact"
         class="section contact-section"
